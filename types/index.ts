@@ -3,6 +3,7 @@ export interface CustomButtonProps {
     classes: string;
     disabled?: boolean;
     icon?: string;
+    handleClick?: ()=>void;
 }
 export interface PriceCardProductProps{
     active?: boolean;
