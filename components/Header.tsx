@@ -12,6 +12,7 @@ const Header = ({session}:LoggedUser) => {
       <div className="flex justify-end items-center p-2 gap-2">
         <Image src={`${session.image}`} alt="profile image" className="rounded-full" width={30} height={30}/>
         <p>{session.name}</p>
+        <CustomButton title="sign out" classes="bg-black text-white font-bold p-2 rounded-full" handleClick={()=>signOut()}/>
 
       </div>
     )

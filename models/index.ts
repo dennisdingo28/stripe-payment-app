@@ -1,9 +1,11 @@
 import { Schema,model,models } from "mongoose";
+import { Payment } from "@/types";
 
 interface UserSchemaDef{
     username: string;
     email: string;
     profileImage: string;
+    payment : Payment;
 }
 
 const UserSchema = new Schema<UserSchemaDef>({
@@ -20,9 +22,24 @@ const UserSchema = new Schema<UserSchemaDef>({
     profileImage:{
         type:String,
         required:[true,"You must provide a profile image"],
+    },
+    payment:{
+        customerId:{
+            type:String,
+            required:[true,"You must provide the customer id"] as [true, string],
+            unique:true,
+        },
+        sessionId:{
+            type:String,
+            unique:true,
+        },
+       paid:{
+        type:Boolean,
+        default:false,
+       }
     }
 });
 
-const User = models.Users || model("Users",UserSchema);
+const User = models.User || model("User",UserSchema);
 
 export default User;

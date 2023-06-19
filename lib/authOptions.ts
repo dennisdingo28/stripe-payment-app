@@ -2,6 +2,7 @@ import GoogleProvider from "next-auth/providers/google";
 import {NextAuthOptions} from "next-auth";
 import connectDB from "./connectDb";
 import User from "@/models";
+import { createCustomer } from "./stripeAPI";
 
 function getGoogleCredintials(){
     
@@ -34,7 +35,13 @@ export const authOptions: NextAuthOptions = {
                     const existingUser = await User.findOne({username:user.name,email:user.email});
 
                     if(!existingUser){
-                        const newUser = await User.create({username:user.name,email:user.email,profileImage:user.image});
+                        if(user.name && user.email){
+                            const newCustomer = await createCustomer(user.name,user.email);
+
+                            const newUser = await User.create({username:user.name,email:user.email,profileImage:user.image,payment:{
+                                customerId:newCustomer?.id
+                            }});
+                        }
                     }
                 }
 
@@ -44,10 +51,8 @@ export const authOptions: NextAuthOptions = {
            return true;
         },
         async jwt({user,token,account}){
-            console.log(account);
             if(user && account)
                 token.id_token=account?.id_token;
-            console.log(token);
             
             return token;
         },

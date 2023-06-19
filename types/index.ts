@@ -22,4 +22,8 @@ export interface LoggedUser {
         image?: string ;
     }
 }
-  
+export interface Payment {
+    customerId: string;
+    sessionId: string;
+    paid: boolean;
+}
