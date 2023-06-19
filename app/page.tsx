@@ -12,6 +12,10 @@ import { useSession } from 'next-auth/react'
 export default function Home() {
   const {data:session} = useSession();
   console.log(session);
+
+  useEffect(()=>{
+    localStorage.setItem('id_token',JSON.stringify(session?.user?.id_token));
+  },[session]);  
   
   const [productProperty, setProductProperty] = useState<{product:PriceCardProductProps,productPrice:PriceCardAmountProps}>();
 
@@ -30,7 +34,7 @@ export default function Home() {
   
   return (
     <main className='min-h-[100vh] bg-[#e7e6e6] flex flex-col'>
-        <Header/>
+        <Header session={session?.user}/>
         <div className="flex-1 flex items-center justify-center ">
           {productProperty && (
             <div className='bg-white shadow-xl'>

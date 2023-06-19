@@ -14,3 +14,12 @@ export interface PriceCardAmountProps {
     type?: string;
     unit_amount: number;
 }
+export interface LoggedUser {
+    session?: {
+        name?: string;
+        email?: string;
+        id_token?: string ;
+        image?: string ;
+    }
+}
+  
