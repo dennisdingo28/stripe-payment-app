@@ -17,7 +17,7 @@ export async function GET(req:NextRequest){
 
             const targetProductPrice = await stripe.prices.retrieve(targetProduct.default_price as string);
             
-            return NextResponse.json({product:products.data[0],productPrice:targetProductPrice});
+            return NextResponse.json({product:targetProduct,productPrice:targetProductPrice});
         }
         
     }catch(err){

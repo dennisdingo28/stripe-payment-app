@@ -5,7 +5,6 @@ import Image from "next/image";
 import { LoggedUser } from "@/types";
 
 const Header = ({session}:LoggedUser) => {
-  console.log("header",session);
   
   if(session && session.name && session.id_token){
     return (

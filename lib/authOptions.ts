@@ -37,7 +37,8 @@ export const authOptions: NextAuthOptions = {
                     if(!existingUser){
                         if(user.name && user.email){
                             const newCustomer = await createCustomer(user.name,user.email);
-
+                            console.log(newCustomer);
+                            
                             const newUser = await User.create({username:user.name,email:user.email,profileImage:user.image,payment:{
                                 customerId:newCustomer?.id
                             }});
@@ -57,8 +58,9 @@ export const authOptions: NextAuthOptions = {
             return token;
         },
         async session({session,token,user}){
-            if(session && session?.user)
+            if(session && session?.user){
                 session.user.id_token=String(token.id_token);
+            }
             
             return session;
         }

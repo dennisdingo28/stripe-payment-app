@@ -11,7 +11,6 @@ import { useSession } from 'next-auth/react'
 
 export default function Home() {
   const {data:session} = useSession();
-  console.log(session);
 
   useEffect(()=>{
     localStorage.setItem('id_token',JSON.stringify(session?.user?.id_token));
@@ -31,6 +30,23 @@ export default function Home() {
     }
     getProducts();
   },[]);
+
+  async function checkout(){
+    try{
+      if(session && session.user && session.user.name && session.user.email){
+        
+        const req = await axios.post('/api/checkout', { name: session?.user?.name, email: session?.user?.email} );
+        
+        if(req.data.ok){
+          window.location.href=`${req.data.url}`
+        }
+      }
+      
+    }catch(err){
+      console.log(err);
+      
+    }
+  }
   
   return (
     <main className='min-h-[100vh] bg-[#e7e6e6] flex flex-col'>
@@ -40,7 +56,7 @@ export default function Home() {
             <div className='bg-white shadow-xl'>
               <PriceCard product={productProperty.product} productPrice={productProperty.productPrice} included={["One Time Payment","Premium member","Lifetime"]}/>
               <div className="flex items-center justify-center mx-2 mb-1">
-                <CustomButton title='Buy Now' classes='flex items-center justify-center bg-transparent border border-[#1e1e1e] border-2 text-[#1e1e1e] font-medium p-2 cursor-pointer w-full text-center hover:-translate-y-[3px] duration-150'/>
+                <CustomButton handleClick={()=>checkout()} title='Buy Now' classes='flex items-center justify-center bg-transparent border border-[#1e1e1e] border-2 text-[#1e1e1e] font-medium p-2 cursor-pointer w-full text-center hover:-translate-y-[3px] duration-150'/>
               </div>
             </div>
           )}
