@@ -6,9 +6,13 @@ import axios from 'axios'
 import { useEffect, useState } from 'react'
 import PriceCard from '@/components/PriceCard'
 import { PriceCardProductProps,PriceCardAmountProps} from "@/types"
+import { useSession } from 'next-auth/react'
 
 
 export default function Home() {
+  const {data:session} = useSession();
+  console.log(session);
+  
   const [productProperty, setProductProperty] = useState<{product:PriceCardProductProps,productPrice:PriceCardAmountProps}>();
 
   useEffect(()=>{
