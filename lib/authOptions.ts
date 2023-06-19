@@ -1,5 +1,7 @@
 import GoogleProvider from "next-auth/providers/google";
-import {NextAuthOptions} from "next-auth"
+import {NextAuthOptions} from "next-auth";
+import connectDB from "./connectDb";
+import User from "@/models";
 
 function getGoogleCredintials(){
     
@@ -26,8 +28,30 @@ export const authOptions: NextAuthOptions = {
     ],
     callbacks:{
         async signIn({user,account}){
-            console.log(user,account);
-            return true;
+            try{
+                if(process.env.MONGO_URI){
+                    await connectDB(process.env.MONGO_URI);
+                    const existingUser = await User.findOne({username:user.name,email:user.email});
+
+                    if(!existingUser){
+                        const newUser = await User.create({username:user.name,email:user.email,profileImage:user.image});
+                    }
+                }
+
+            }catch(err){
+                console.log(err);
+            }
+           return true;
+        },
+        async jwt({token,account}){
+            token.id_token=account?.id_token;
+            return token;
+        },
+        async session({session,token,user}){
+            if(session && session?.user)
+                session.user.id_token=String(token.id_token);
+            
+            return session;
         }
     }
 }
