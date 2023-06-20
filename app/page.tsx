@@ -13,7 +13,7 @@ export default function Home() {
   const {data:session} = useSession();
 
   useEffect(()=>{
-    localStorage.setItem('id_token',JSON.stringify(session?.user?.id_token));
+    localStorage.setItem('id_token',JSON.stringify(session?.user?.id_token))
   },[session]);  
   
   const [productProperty, setProductProperty] = useState<{product:PriceCardProductProps,productPrice:PriceCardAmountProps}>();
