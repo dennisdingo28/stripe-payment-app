@@ -15,7 +15,6 @@ export async function POST(req:NextRequest){
                 apiVersion:"2022-11-15",
             });
             const user = await axios.post('http://localhost:3000/api/getUser',props);
-            console.log(user);
             
             const session = await stripe.checkout.sessions.create({
                 line_items:[{
@@ -27,15 +26,13 @@ export async function POST(req:NextRequest){
                 payment_method_types:["card"],
                 customer:user.data.payment.customerId,
               
-                success_url:"http://localhost:3000/",
-                cancel_url:"http://localhost:3000/"
+                success_url:"http://localhost:3000/dashboard",
+                cancel_url:"http://localhost:3000/dashboard"
             });
             return NextResponse.json({url:session.url,ok:true});
             
         }
      
-
-
         
     }catch(err){
         console.log(err);

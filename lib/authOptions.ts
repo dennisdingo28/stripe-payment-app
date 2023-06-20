@@ -37,9 +37,8 @@ export const authOptions: NextAuthOptions = {
                     if(!existingUser){
                         if(user.name && user.email){
                             const newCustomer = await createCustomer(user.name,user.email);
-                            console.log(newCustomer);
                             
-                            const newUser = await User.create({username:user.name,email:user.email,profileImage:user.image,payment:{
+                            await User.create({username:user.name,email:user.email,profileImage:user.image,payment:{
                                 customerId:newCustomer?.id
                             }});
                         }
@@ -53,7 +52,7 @@ export const authOptions: NextAuthOptions = {
         },
         async jwt({user,token,account}){
             if(user && account)
-                token.id_token=account?.id_token;
+                token.id_token=account.id_token;
             
             return token;
         },

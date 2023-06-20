@@ -24,6 +24,6 @@ export interface LoggedUser {
 }
 export interface Payment {
     customerId: string;
-    sessionId: string;
+    eventId: string;
     paid: boolean;
 }

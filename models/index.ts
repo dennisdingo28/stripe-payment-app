@@ -29,8 +29,9 @@ const UserSchema = new Schema<UserSchemaDef>({
             required:[true,"You must provide the customer id"] as [true, string],
             unique:true,
         },
-        sessionId:{
+        eventId:{
             type:String,
+            default:"none",
             unique:true,
         },
        paid:{

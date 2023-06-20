@@ -10,7 +10,6 @@ export async function createCustomer(name:string,email:string){
                 name,email
             });
 
-            console.log("customer",newCustomer);
             return newCustomer;
         }
         
