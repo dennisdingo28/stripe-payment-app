@@ -4,7 +4,7 @@ import Image from "next/image";
 
 import { LoggedUser } from "@/types";
 
-const Header = ({session}:LoggedUser) => {
+const Header = ({session}:any) => {
   
   if(session && session.name && session.id_token){
     return (
